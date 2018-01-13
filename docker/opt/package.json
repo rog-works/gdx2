@@ -1,0 +1,12 @@
+{
+	"name": "gdx2-app",
+	"version": "0.0.1",
+	"license": "MIT",
+	"description": "google drive library",
+	"repository": "git@github.com:rog-works/gdx2.git",
+	"main": "index.js",
+	"dependencies": {
+		"google-auth-library": "0.10.0",
+		"googleapis": "19.0.0"
+	}
+}

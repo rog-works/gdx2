@@ -14,7 +14,8 @@
 			"remoteRoot": "/opt",
 			"trace": true,
 			"protocol": "inspector",
-			"timeout": 10000
+			"timeout": 10000,
+			"preLaunchTask": "launch program"
 		}
 	]
 }

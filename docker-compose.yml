@@ -1,9 +1,9 @@
 version: '3'
 services:
-        app:
-                image: gdx2-app:latest
-                build: ./docker
-                container_name: gdx2-app
-                volumes:
-                        - ./:/opt/
+  app:
+    image: gdx2-app:latest
+    build: ./docker
+    container_name: gdx2-app
+    volumes:
+      - ./:/opt/
  

@@ -1,19 +1,24 @@
-namespace infos {
-	Info;
-	list(path: string = '/'): Info[];
+import { GD } from './GD';
+import { ClientSecret } from './Auth';
+import { Files } from './Files';
+
+export class Gdx2 {
+	/** Google Drive Api */
+	private _gd: GD;
+	/** files API */
+	private _files: Files;
+
+	/**
+	 * インスタンスを生成します
+	 * @param clientSecret 
+	 */
+	public constructor(clientSecret: ClientSecret) {}
+
+	/**
+	 * files API を取得します
+	 * @return {Files} files API
+	 */
+	public get files() {
+		return this._files || (this._files = new Files(this._gd));
+	}
 }
-
-namespace entries {
-	infos;
-	Entry;
-	create(path: string, content: any): Promise<void>;
-	get(path: string): Promise<Entry>;
-	update(path: string, content: any): Promise<void>;
-	delete(path: string): Promise<void>;
-}
-
-namespace gdx2 {
-	entries;
-};
-
-export gdx2;

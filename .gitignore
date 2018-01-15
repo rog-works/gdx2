@@ -1,4 +1,5 @@
 node_modules/
 .credentials/
 client_secret.json
-*.js*
+*.js
+*.js.map

@@ -1,33 +1,32 @@
-import { Auth, ClientSecret, GoogleAuth } from './Auth';
+import { OAuth2Client } from 'google-auth-library';
 import * as google from 'googleapis';
+import { Auth } from './Auth';
 
 interface Options {}
 
-interface ListOptions extends Options {
-	auth?: GoogleAuth;
+export interface ListOptions extends Options {
+	auth?: OAuth2Client;
 	pageSize?: number;
 	fields?: string;
 }
 
 export class GD {
-	private readonly _auth: Auth;
+	public constructor(
+		private readonly _auth: Auth
+	) {}
 
-	public constructor(clientSecret: ClientSecret) {
-		this._auth = new Auth(clientSecret);
-	}
-
-	private get _drive() {
+	private get _service() {
 		return google.drive('v3');
 	}
 
 	public async list(path: string = '/', listOptions: ListOptions = {}) {
-		const auth = await this._auth.authorized();
+		const client = await this._auth.createOAuthClient();
 		const options: ListOptions = {
-			auth: listOptions.auth || auth,
+			auth: listOptions.auth || client,
 			pageSize: listOptions.pageSize || 10,
 			fields: listOptions.fields || 'nextPageToken, files(id, name)'
 		};
-		return this._request(this._drive.files.get, options);
+		return this._request(this._service.files.get, options);
 	}
 
 	public async get(path: string) { }
@@ -36,7 +35,7 @@ export class GD {
 	public async update(path: string, content: any) { }
 	public async delete(path: string) { }
 
-	private async _request(api: Function, options: Options) {
+	private async _request<T>(api: Function, options: Options) {
 		return new Promise((resolve, reject) => {
 			api(options, (err: Error, response: any) => {
 				if (err) {
@@ -45,6 +44,7 @@ export class GD {
 					resolve(response);
 				}
 			});
-		});
+		})
+		.then((response: any) => <T>response);
 	}
 }

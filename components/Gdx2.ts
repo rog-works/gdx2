@@ -1,24 +1,21 @@
 import { GD } from './GD';
-import { ClientSecret } from './Auth';
+import { Auth, AuthConfig } from './Auth';
 import { Files } from './Files';
 
 export class Gdx2 {
-	/** Google Drive Api */
-	private _gd: GD;
+	/** auth API */
+	public readonly auth: Auth;
 	/** files API */
-	private _files: Files;
+	public readonly files: Files;
 
 	/**
 	 * インスタンスを生成します
-	 * @param clientSecret 
+	 * @param config 認証情報コンフィグ
 	 */
-	public constructor(clientSecret: ClientSecret) {}
-
-	/**
-	 * files API を取得します
-	 * @return {Files} files API
-	 */
-	public get files() {
-		return this._files || (this._files = new Files(this._gd));
+	public constructor(config: AuthConfig) {
+		const auth = new Auth(config);
+		const gd = new GD(auth);
+		this.auth = auth;
+		this.files = new Files(gd);
 	}
 }

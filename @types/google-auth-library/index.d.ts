@@ -10,7 +10,7 @@ declare module "google-auth-library" {
 		public getToken(code: string, callback: Function): any;
 	}
 
-	export class googleAuth {
+	export class GoogleAuth {
 		public OAuth2(clientId: string, clientSecret: string, redirectUrl: string): OAuth2Client
 	}
 }

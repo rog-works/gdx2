@@ -18,7 +18,7 @@ export class GD {
 			pageSize: listOptions.pageSize || 10,
 			fields: listOptions.fields || 'nextPageToken, files(id, name)'
 		};
-		return this._request(this._service.files.get, options);
+		return this._request(this._service.files.list, options);
 	}
 
 	public async get(path: string) { }

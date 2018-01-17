@@ -28,7 +28,7 @@ export class GAuth {
 	
 	public async createOAuthClient() {
 		const client = this._createClient(this._config.clientSecret);
-		client.credentials = JSON.parse(this._config.createOAuthClient.token);
+		client.credentials = this._config.createOAuthClient.token;
 		return client;
 	}
 

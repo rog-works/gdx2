@@ -4,9 +4,12 @@
 	"license": "MIT",
 	"description": "google drive library",
 	"repository": "git@github.com:rog-works/gdx2.git",
-	"main": "index.js",
+	"main": "dist/Gdx2.js",
 	"dependencies": {
+		"@types/node": "^9.3.0",
 		"google-auth-library": "0.10.0",
-		"googleapis": "19.0.0"
+		"googleapis": "19.0.0",
+		"ts-node": "^4.1.0",
+		"typescript": "^2.6.2"
 	}
 }

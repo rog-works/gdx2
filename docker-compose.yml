@@ -9,4 +9,4 @@ services:
     ports:
       - 18088:18088
     command:
-      node --inspect-brk=0.0.0.0:18088 quickstart.js
+      node --inspect-brk=0.0.0.0:18088 bin/auth.js

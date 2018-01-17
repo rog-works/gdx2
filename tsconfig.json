@@ -1,14 +1,11 @@
 {
 	"compilerOptions": {
+		"outDir": "./dist",
 		"sourceMap": true,
-		"noImplicitAny": true,
+		"noImplicitAny": false,
 		"module": "commonjs",
 		"target": "es6",
-		"strictNullChecks": true,
-		"typeRoots": [
-			"./@types",
-			"./node_modules/@types"
-		]
+		"strictNullChecks": true
 	},
 	"exclude": [
 		"./node_modules"

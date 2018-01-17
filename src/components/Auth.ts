@@ -1,4 +1,4 @@
-import { GoogleAuth, OAuth2Client } from 'google-auth-library';
+import * as GoogleAuth from 'google-auth-library';
 
 interface ClientSecretInstalled {
 	client_id: string;
@@ -46,7 +46,7 @@ export class Auth {
 		private readonly _config: AuthConfig
 	) {
 		if (!this._isValidClientSecret()) {
-			//throw new Error('Invalid Client Secret.');
+			throw new Error('Invalid Client Secret.');
 		}
 	}
 	
@@ -73,14 +73,15 @@ export class Auth {
 	}
 
 	private _createClient(clientSecret: ClientSecret) {
-		return new GoogleAuth().OAuth2(
+		const googleAuth = new GoogleAuth();
+		return new googleAuth.OAuth2(
 			clientSecret.installed.client_id,
 			clientSecret.installed.client_secret,
 			clientSecret.installed.redirect_uris[0]
 		);
 	}
 
-	private async _getToken(client: OAuth2Client, code: string) {
+	private async _getToken(client: any, code: string) {
 		return new Promise((resolve, reject) => {
 			client.getToken(code, (err: Error, token: string) => {
 				if (err) {

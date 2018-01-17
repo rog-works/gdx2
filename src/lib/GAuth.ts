@@ -1,47 +1,7 @@
 import * as GoogleAuth from 'google-auth-library';
+import { ClientSecret, AuthConfig } from './GAuth.d';
 
-interface ClientSecretInstalled {
-	client_id: string;
-	project_id: string;
-	auth_uri: string;
-	client_secret: string;
-	auth_provider_x509_cert_url: string;
-	redirect_uris: string[];
-}
-
-interface ClientSecret {
-	installed: ClientSecretInstalled;
-}
-
-enum AccessTypes {
-	Offline = 'offline'
-}
-
-enum Scope {
-	MetadataReadOnly = 'https://www.googleapis.com/auth/drive.metadata.readonly'
-}
-
-interface GenerateAuthUrlConfig {
-	access_type: AccessTypes;
-	scope: Scope[]
-}
-
-interface GetTokenConfig {
-	code: string
-}
-
-interface CreateOAuthClientConfig {
-	token: string;
-}
-
-export interface AuthConfig {
-	clientSecret: ClientSecret;
-	generateAuthUrl: GenerateAuthUrlConfig;
-	getToken: GetTokenConfig;
-	createOAuthClient: CreateOAuthClientConfig;
-}
-
-export class Auth {
+export class GAuth {
 	public constructor(
 		private readonly _config: AuthConfig
 	) {

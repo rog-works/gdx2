@@ -1,7 +1,7 @@
 class auth {
-	run(...argv) {
+	run(argv) {
 		const command = argv[2];
-		const args = argv.slice(2);
+		const args = argv.slice(3);
 		if (this[command]) {
 			this[command](...args);
 		} else {
@@ -12,7 +12,7 @@ class auth {
 	generateAuthUrl(configPath) {
 		const Gdx2 = require('../dist/Gdx2.js').Gdx2;
 
-		const config = this._loadConfig(configPaht);
+		const config = this._loadConfig(configPath);
 		new Gdx2(config).auth.generateAuthUrl()
 			.then(authUrl => console.log(authUrl));
 	}
@@ -20,7 +20,7 @@ class auth {
 	getToken(configPath) {
 		const Gdx2 = require('../dist/Gdx2.js').Gdx2;
 
-		const config = this._loadConfig(configPaht);
+		const config = this._loadConfig(configPath);
 		new Gdx2(config).auth.getToken()
 			.then(authUrl => console.log(authUrl));
 	}
@@ -30,7 +30,7 @@ class auth {
 		if (!fs.statSync(path).isFile) {
 			throw new Error(`Config file not found. ${path}`);
 		}
-		return JSON.parse(fs.readFileSync(configPath));
+		return JSON.parse(fs.readFileSync(path));
 	}
 }
 

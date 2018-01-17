@@ -1,18 +1,10 @@
-import { OAuth2Client } from 'google-auth-library';
 import * as google from 'googleapis';
-import { Auth } from './Auth';
-
-interface Options {}
-
-export interface ListOptions extends Options {
-	auth?: OAuth2Client;
-	pageSize?: number;
-	fields?: string;
-}
+import { GAuth } from './GAuth';
+import { Options, ListOptions } from './GD.d';
 
 export class GD {
 	public constructor(
-		private readonly _auth: Auth
+		private readonly _gAuth: GAuth
 	) {}
 
 	private get _service() {
@@ -20,7 +12,7 @@ export class GD {
 	}
 
 	public async list(path: string = '/', listOptions: ListOptions = {}) {
-		const client = await this._auth.createOAuthClient();
+		const client = await this._gAuth.createOAuthClient();
 		const options: ListOptions = {
 			auth: listOptions.auth || client,
 			pageSize: listOptions.pageSize || 10,

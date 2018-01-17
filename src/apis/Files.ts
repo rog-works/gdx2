@@ -1,4 +1,4 @@
-import { GD } from './GD';
+import { GD } from '../lib/GD';
 
 export class Files {
 	public constructor(

@@ -1,6 +1,8 @@
-import { GD } from './GD';
-import { Auth, AuthConfig } from './Auth';
-import { Files } from './Files';
+import { AuthConfig } from './lib/GAuth.d';
+import { GAuth } from './lib/GAuth';
+import { GD } from './lib/GD';
+import { Auth } from './apis/Auth';
+import { Files } from './apis/Files';
 
 export class Gdx2 {
 	/** auth API */
@@ -13,9 +15,9 @@ export class Gdx2 {
 	 * @param config 認証情報コンフィグ
 	 */
 	public constructor(config: AuthConfig) {
-		const auth = new Auth(config);
-		const gd = new GD(auth);
-		this.auth = auth;
+		const gAuth = new GAuth(config);
+		const gd = new GD(gAuth);
+		this.auth = new Auth(gAuth);
 		this.files = new Files(gd);
 	}
 }

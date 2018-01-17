@@ -53,7 +53,7 @@ $ node node_modules/gdx2/dist/bin/auth.js generateAuthUrl `pwd`/config/default.j
 ~ output auth url ~
 ```
 
-### 5. ブラウザで上記URLにアクセスし、認証後に表示されたコードをコピー
+### 5. ブラウザで認証用URLにアクセスし、認証後に表示されたコードをコピー
 
 ### 6. `config/default.json`内の`getToken.code`にコードを張り付け
 

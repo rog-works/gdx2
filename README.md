@@ -77,7 +77,8 @@ $ node node_modules/gdx2/dist/bin/auth.js getToken `pwd`/config/default.json
 ```
 $ vim config/default.json
 ~
-  "createOAuthClient": <your token>
+  "createOAuthClient": {
+    "token": <your token>
 ~
 ```
 

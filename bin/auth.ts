@@ -1,5 +1,9 @@
+import * as fs from 'fs';
+import { AuthConfig } from '../src/lib/GAuth.d';
+import { Gdx2 } from '../src/Gdx2';
+
 class auth {
-	run(argv) {
+	public run(argv: string[]) {
 		const command = argv[2];
 		const args = argv.slice(3);
 		if (this[command]) {
@@ -9,23 +13,17 @@ class auth {
 		}
 	}
 
-	generateAuthUrl(configPath) {
-		const Gdx2 = require('../dist/Gdx2.js').Gdx2;
-
+	public async generateAuthUrl(configPath: string) {
 		const config = this._loadConfig(configPath);
-		new Gdx2(config).auth.generateAuthUrl()
-			.then(authUrl => console.log(authUrl));
+		console.log(await new Gdx2(config).auth.generateAuthUrl());
 	}
 
-	getToken(configPath) {
-		const Gdx2 = require('../dist/Gdx2.js').Gdx2;
-
+	public async getToken(configPath: string) {
 		const config = this._loadConfig(configPath);
-		new Gdx2(config).auth.getToken()
-			.then(authUrl => console.log(authUrl));
+		console.log(await new Gdx2(config).auth.getToken());
 	}
 
-	_loadConfig(path) {
+	private _loadConfig(path): AuthConfig {
 		const fs = require('fs');
 		if (!fs.statSync(path).isFile) {
 			throw new Error(`Config file not found. ${path}`);

@@ -1,21 +1,24 @@
+import * as fs from 'fs';
+import { AuthConfig } from '../src/lib/GAuth.d';
+import { Gdx2 } from '../src/Gdx2';
+
 class files {
-	run(argv) {
+	public run(argv: string[]) {
 		const command = argv[2];
 		const args = argv.slice(3);
 		if (this[command]) {
 			this[command](...args);
+		} else {
+			throw new Error(`Not supported command ${command}`);
 		}
 	}
 
-	list(configPath) {
-		const Gdx2 = require('../dist/Gdx2').Gdx2;
-
+	public async list(configPath: string) {
 		const config = this._loadConfig(configPath);
-		new Gdx2(config).files.list()
-			.then((response) => console.log(response));
+		console.log(await new Gdx2(config).files.list());
 	}
 
-	_loadConfig(path) {
+	private _loadConfig(path): AuthConfig {
 		const fs = require('fs');
 		if (!fs.statSync(path).isFile) {
 			throw new Error(`Config file not found. ${path}`);

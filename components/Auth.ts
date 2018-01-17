@@ -46,14 +46,14 @@ export class Auth {
 		private readonly _config: AuthConfig
 	) {
 		if (!this._isValidClientSecret()) {
-			throw new Error('Invalid Client Secret.');
+			//throw new Error('Invalid Client Secret.');
 		}
 	}
 	
 	private _isValidClientSecret() {
-		return !this._config.clientSecret.installed.client_id ||
-			!this._config.clientSecret.installed.client_secret ||
-			!this._config.clientSecret.installed.redirect_uris[0];
+		return this._config.clientSecret.installed.client_id &&
+			this._config.clientSecret.installed.client_secret &&
+			this._config.clientSecret.installed.redirect_uris[0];
 	}
 	
 	public async generateAuthUrl() {

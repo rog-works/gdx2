@@ -24,11 +24,10 @@ class auth {
 	}
 
 	private _loadConfig(path): AuthConfig {
-		const fs = require('fs');
 		if (!fs.statSync(path).isFile) {
 			throw new Error(`Config file not found. ${path}`);
 		}
-		return JSON.parse(fs.readFileSync(path));
+		return JSON.parse(fs.readFileSync(path).toString());
 	}
 }
 

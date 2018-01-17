@@ -87,8 +87,11 @@ $ vim config/default.json
 import * as fs from 'fs';
 import { Gdx2 } from 'gdx2';
 
-const config = JSON.parse(fs.readFileSync('./config/default.json'));
-const response = await (new Gdx2(config)).files.list();
+const list = async () => {
+	const config = JSON.parse(fs.readFileSync('./config/default.json').toString());
+	const response = await (new Gdx2(config)).files.list();
+	console.log(response);
+}
 
-console.log(response);
+list();
 ```

@@ -15,10 +15,10 @@ export class Files {
 	/**
 	 * ファイルのメタ情報リストを取得します
 	 * @param {string} basePath 基準パス
-	 * @return {FileInfo[]}
+	 * @return {Promise<ListResponse>}
 	 */
-	public async list(path: string = '/') {
-		return this.gd.list(path);
+	public async list(basePath: string = '/') {
+		return this.gd.list(basePath);
 	}
 
 	public async get(path: string) { }

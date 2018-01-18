@@ -13,7 +13,6 @@
 	},
 	"scripts": {
 		"build": "node_modules/typescript/bin/tsc",
-		"ts-exec": "node_modules/ts-node/dist/index",
 		"generateAuthUrl": "npm run build && node dist/bin/auth generateAuthUrl",
 		"getToken": "npm run build && node dist/bin/auth getToken"
 	}

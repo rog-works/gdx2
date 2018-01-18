@@ -110,22 +110,17 @@ export class GAuth {
 }
 
 /**
- * クライアントシークレットの実体
- */
-export interface ClientSecretInstalled {
-	client_id: string;
-	project_id: string;
-	auth_uri: string;
-	client_secret: string;
-	auth_provider_x509_cert_url: string;
-	redirect_uris: string[];
-}
-
-/**
  * クライアントシークレット
  */
 export interface ClientSecret {
-	installed: ClientSecretInstalled;
+	installed: {
+		client_id: string;
+		project_id: string;
+		auth_uri: string;
+		client_secret: string;
+		auth_provider_x509_cert_url: string;
+		redirect_uris: string[];
+	}
 }
 
 /**

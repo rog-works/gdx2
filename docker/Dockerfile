@@ -7,4 +7,3 @@ WORKDIR /opt
 RUN npm install
 
 CMD tail -f /dev/null
-

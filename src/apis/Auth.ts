@@ -6,10 +6,10 @@ import { GAuth, ClientSecret } from '../lib/GAuth';
 export class Auth {
 	/**
 	 * インスタンスを生成します
-	 * @param {GAuth} _gAuth 認証ライブラリ
+	 * @param {GAuth} gAuth 認証ライブラリ
 	 */
 	public constructor(
-		private readonly _gAuth: GAuth
+		private readonly gAuth: GAuth
 	) {}
 
 	/**
@@ -18,7 +18,7 @@ export class Auth {
 	 * @return {string}
 	 */
 	public generateAuthUrl(clientSecretJson: string) {
-		return this._gAuth.generateAuthUrl(<ClientSecret>JSON.parse(clientSecretJson));
+		return this.gAuth.generateAuthUrl(<ClientSecret>JSON.parse(clientSecretJson));
 	}
 
 	/**
@@ -28,6 +28,6 @@ export class Auth {
 	 * @return {Promise<string>}
 	 */
 	public async getToken(clientSecretJson: string, code: string) {
-		return JSON.stringify(await this._gAuth.getToken(<ClientSecret>JSON.parse(clientSecretJson), code));
+		return JSON.stringify(await this.gAuth.getToken(<ClientSecret>JSON.parse(clientSecretJson), code));
 	}
 }

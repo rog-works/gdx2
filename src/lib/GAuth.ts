@@ -1,6 +1,9 @@
 import * as fs from 'fs';
 import * as GoogleAuth from 'google-auth-library';
 
+/**
+ * Google認証ライプラリーラッパー
+ */
 export class GAuth {
 	/** 認証コンフィグ */
 	private readonly credentialsPath: string;
@@ -20,7 +23,7 @@ export class GAuth {
 	 */
 	public generateAuthUrl(clientSecret: ClientSecret) {
 		this.assertClientSecret(clientSecret);
-		const client = this.createClient(clientSecret);
+		const client = this.createOAuth2Client(clientSecret);
 		const options: GenerateAuthUrlConfig = {
 			access_type: AccessTypes.Offline,
 			scope: [ Scope.MetadataReadOnly ]
@@ -36,7 +39,7 @@ export class GAuth {
 	 */
 	public async getToken(clientSecret: ClientSecret, code: string) {
 		this.assertClientSecret(clientSecret);
-		const client = this.createClient(clientSecret);
+		const client = this.createOAuth2Client(clientSecret);
 		return this.requestGetToken(client, code);
 	}
 
@@ -45,13 +48,13 @@ export class GAuth {
 	 * @return {OAuth2Client}
 	 */
 	public createAuthorizedOAuth2Client() {
-		const client = this.createClient();
+		const client = this.createOAuth2Client();
 		client.credentials = this.loadCredentials(this.credentialsPath);
 		return client;
 	}
 
 	/**
-	 * クライアントシークレットをチェックします
+	 * クライアントシークレットを検証します
 	 * @param {ClientSecret} クライアントシークレット
 	 * @throws {Error} クライアントシークレットが正常でない場合に発生
 	 */
@@ -68,7 +71,7 @@ export class GAuth {
 	 * OAuth2クライアントを生成します
 	 * @param {ClientSecret} クライアントシークレット
 	 */
-	private createClient(clientSecret?: ClientSecret) {
+	private createOAuth2Client(clientSecret?: ClientSecret) {
 		const googleAuth = new GoogleAuth();
 		return new googleAuth.OAuth2(
 			clientSecret ? clientSecret.installed.client_id : '',
@@ -106,6 +109,9 @@ export class GAuth {
 	}
 }
 
+/**
+ * クライアントシークレットの実体
+ */
 export interface ClientSecretInstalled {
 	client_id: string;
 	project_id: string;
@@ -115,10 +121,16 @@ export interface ClientSecretInstalled {
 	redirect_uris: string[];
 }
 
+/**
+ * クライアントシークレット
+ */
 export interface ClientSecret {
 	installed: ClientSecretInstalled;
 }
 
+/**
+ * auth.getTokenで取得する証明情報
+ */
 export interface Credentials {
 	access_type: string;
 	refresh_type: string;
@@ -126,14 +138,23 @@ export interface Credentials {
 	expiry_date: number;
 }
 
+/**
+ * auth.generateAuthUrlで使用するアクセスタイプ
+ */
 export enum AccessTypes {
 	Offline = 'offline'
 }
 
+/**
+ * auth.generateAuthUrlで使用するスコープ
+ */
 export enum Scope {
 	MetadataReadOnly = 'https://www.googleapis.com/auth/drive.metadata.readonly'
 }
 
+/**
+ * auth.generateAuthUrlの引数
+ */
 export interface GenerateAuthUrlConfig {
 	access_type: AccessTypes;
 	scope: Scope[]

@@ -1,12 +1,24 @@
 import { GD } from '../lib/GD';
 
+/**
+ * Google Drive files APIs
+ */
 export class Files {
+	/**
+	 * インスタンスを生成します
+	 * @param gd Google Driveライブラリー
+	 */
 	public constructor(
-		private readonly _gd: GD
+		private readonly gd: GD
 	) {}
 
+	/**
+	 * ファイルのメタ情報リストを取得します
+	 * @param {string} basePath 基準パス
+	 * @return {FileInfo[]}
+	 */
 	public async list(path: string = '/') {
-		return this._gd.list(path);
+		return this.gd.list(path);
 	}
 
 	public async get(path: string) { }

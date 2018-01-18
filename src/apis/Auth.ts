@@ -1,5 +1,8 @@
 import { GAuth, ClientSecret } from '../lib/GAuth';
 
+/**
+ * Google auth APIs
+ */
 export class Auth {
 	/**
 	 * インスタンスを生成します

@@ -27,59 +27,30 @@ Gdx2
 
 ## 事前作業
 
-### 1. 予め`Google Developers Console`で`Google Drive`用の`client_secret_xxxx.json`を取得しておく
+### 1. 予め`Google Developers Console`で`Google Drive`用の`client_secret_xxxx.json`を取得
 
 https://console.developers.google.com
 
-### 2. コンフィグをコピー
+### 2. `client_secret_xxxx.json`をルート配下の`<root>/.google/client_secret.json`に保存
 
 ```
-$ cp node_modules/gdx2/config/default.json ./config
+$ cp /path/to/client_recret_xxxx.json ./.google/client_secret.json
 ```
 
-### 3. `config/default.json`内の`clientSecret`に`client_secret_xxxx.json`の内容をコピー
+### 3. (2)で取得したクライアントシークレットを引数にして、認証用URL取得
 
 ```
-$ vim config/default.json
-~
-  "clientSecret": <your client secret>
-~
-```
-
-### 4. 認証用URL取得
-
-```
-$ node node_modules/gdx2/dist/bin/auth.js generateAuthUrl `pwd`/config/default.json
+$ node node_modules/gdx2/dist/bin/auth.js generateAuthUrl `cat ./.google/client_secret.json`
 ~ output auth url ~
 ```
 
-### 5. ブラウザで認証用URLにアクセスし、認証後に表示されたコードをコピー
+### 4. ブラウザで(3)の認証用URLにアクセスし、認証後に表示されたコードをコピー
 
-### 6. `config/default.json`内の`getToken.code`にコードを張り付け
-
-```
-$ vim config/default.json
-~
-  "getToken": {
-    "code": "<your code>"
-~
-```
-
-### 7. トークンを取得
+### 5. (4)で取得したコードに引数に加え、トークンを取得して`<root>/.google/credentials.json`に保存
 
 ```
-$ node node_modules/gdx2/dist/bin/auth.js getToken `pwd`/config/default.json
+$ node node_modules/gdx2/dist/bin/auth.js getToken `cat ./.google/client_secret.json` <your code> > ./.google/credentials.json
 ~ output token ~
-```
-
-### 8. `config/default.json`内の`createOAuthClient.token`に表示されたトークンを貼り付け
-
-```
-$ vim config/default.json
-~
-  "createOAuthClient": {
-    "token": <your token>
-~
 ```
 
 ## Gdx2.files

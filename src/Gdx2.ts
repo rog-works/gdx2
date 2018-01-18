@@ -1,4 +1,3 @@
-import { AuthConfig } from './lib/GAuth.d';
 import { GAuth } from './lib/GAuth';
 import { GD } from './lib/GD';
 import { Auth } from './apis/Auth';
@@ -12,12 +11,16 @@ export class Gdx2 {
 
 	/**
 	 * インスタンスを生成します
-	 * @param config 認証情報コンフィグ
+	 * @param {Gdx2Config} config コンフィグ
 	 */
-	public constructor(config: AuthConfig) {
-		const gAuth = new GAuth(config);
+	public constructor(config?: Gdx2Config) {
+		const gAuth = new GAuth(config ? config.token : undefined); // FIXME undefined
 		const gd = new GD(gAuth);
 		this.auth = new Auth(gAuth);
 		this.files = new Files(gd);
 	}
+}
+
+export interface Gdx2Config {
+	token: string;
 }

@@ -1,6 +1,5 @@
 import * as google from 'googleapis';
 import { GAuth } from './GAuth';
-import { Options, ListOptions } from './GD.d';
 
 export class GD {
 	public constructor(
@@ -12,7 +11,7 @@ export class GD {
 	}
 
 	public async list(path: string = '/', listOptions: ListOptions = {}) {
-		const client = await this._gAuth.createOAuthClient();
+		const client = this._gAuth.createAuthorizedOAuth2Client();
 		const options: ListOptions = {
 			auth: listOptions.auth || client,
 			pageSize: listOptions.pageSize || 10,
@@ -39,4 +38,12 @@ export class GD {
 		})
 		.then((response: any) => <T>response);
 	}
+}
+
+export interface Options {}
+
+export interface ListOptions extends Options {
+	auth?: any;
+	pageSize?: number;
+	fields?: string;
 }

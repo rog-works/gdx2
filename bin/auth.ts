@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import { AuthConfig } from '../src/lib/GAuth.d';
 import { Gdx2 } from '../src/Gdx2';
 
 class auth {
@@ -13,21 +12,12 @@ class auth {
 		}
 	}
 
-	public generateAuthUrl(configPath: string) {
-		const config = this._loadConfig(configPath);
-		console.log(new Gdx2(config).auth.generateAuthUrl());
+	public generateAuthUrl(clientSecretJson: string) {
+		console.log(new Gdx2().auth.generateAuthUrl(clientSecretJson));
 	}
 
-	public async getToken(configPath: string) {
-		const config = this._loadConfig(configPath);
-		console.log(await new Gdx2(config).auth.getToken());
-	}
-
-	private _loadConfig(path): AuthConfig {
-		if (!fs.statSync(path).isFile) {
-			throw new Error(`Config file not found. ${path}`);
-		}
-		return JSON.parse(fs.readFileSync(path).toString());
+	public async getToken(clientSecretJson: string, code: string) {
+		console.log(await new Gdx2().auth.getToken(clientSecretJson, code));
 	}
 }
 

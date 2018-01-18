@@ -1,6 +1,5 @@
 import * as fs from 'fs';
-import { AuthConfig } from '../src/lib/GAuth.d';
-import { Gdx2 } from '../src/Gdx2';
+import { Gdx2, Gdx2Config } from '../src/Gdx2';
 
 class files {
 	public run(argv: string[]) {
@@ -18,11 +17,11 @@ class files {
 		console.log(await new Gdx2(config).files.list());
 	}
 
-	private _loadConfig(path): AuthConfig {
+	private _loadConfig(path) {
 		if (!fs.statSync(path).isFile) {
 			throw new Error(`Config file not found. ${path}`);
 		}
-		return JSON.parse(fs.readFileSync(path).toString());
+		return <Gdx2Config>JSON.parse(fs.readFileSync(path).toString());
 	}
 }
 

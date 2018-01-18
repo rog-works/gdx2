@@ -5,18 +5,18 @@ export class GAuth {
 	public constructor(
 		private readonly _config: AuthConfig
 	) {
-		if (!this._isValidClientSecret()) {
+		if (!this._isValidClientSecret(this._config.clientSecret)) {
 			throw new Error('Invalid Client Secret.');
 		}
 	}
 	
-	private _isValidClientSecret() {
-		return this._config.clientSecret.installed.client_id &&
-			this._config.clientSecret.installed.client_secret &&
-			this._config.clientSecret.installed.redirect_uris[0];
+	private _isValidClientSecret(clientSecret: ClientSecret) {
+		return clientSecret.installed.client_id &&
+			clientSecret.installed.client_secret &&
+			clientSecret.installed.redirect_uris[0];
 	}
 	
-	public async generateAuthUrl() {
+	public generateAuthUrl() {
 		const client = this._createClient(this._config.clientSecret);
 		return client.generateAuthUrl(this._config.generateAuthUrl);
 	}
@@ -35,9 +35,9 @@ export class GAuth {
 	private _createClient(clientSecret: ClientSecret) {
 		const googleAuth = new GoogleAuth();
 		return new googleAuth.OAuth2(
-			clientSecret.installed.client_id,
-			clientSecret.installed.client_secret,
-			clientSecret.installed.redirect_uris[0]
+			'', //clientSecret.installed.client_id,
+			'', //clientSecret.installed.client_secret,
+			'' //clientSecret.installed.redirect_uris[0]
 		);
 	}
 

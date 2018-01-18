@@ -13,9 +13,9 @@ class auth {
 		}
 	}
 
-	public async generateAuthUrl(configPath: string) {
+	public generateAuthUrl(configPath: string) {
 		const config = this._loadConfig(configPath);
-		console.log(await new Gdx2(config).auth.generateAuthUrl());
+		console.log(new Gdx2(config).auth.generateAuthUrl());
 	}
 
 	public async getToken(configPath: string) {

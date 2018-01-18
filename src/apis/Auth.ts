@@ -5,7 +5,7 @@ export class Auth {
 		private readonly _gAuth: GAuth
 	) {}
 
-	public async generateAuthUrl() {
+	public generateAuthUrl() {
 		return this._gAuth.generateAuthUrl();
 	}
 

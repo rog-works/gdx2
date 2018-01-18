@@ -127,8 +127,8 @@ export interface ClientSecret {
  * auth.getTokenで取得する証明情報
  */
 export interface Credentials {
-	access_type: string;
-	refresh_type: string;
+	access_token: string;
+	refresh_token: string;
 	token_type: string;
 	expiry_date: number;
 }

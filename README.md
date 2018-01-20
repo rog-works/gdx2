@@ -56,6 +56,7 @@ $ npm run auth getCredentials config/default.json <your code> | grep access_toke
 
 ### 6. (5)で取得した証明情報を`<root>/.google/credentials.json`に保存
 
+```
 $ vim .google/credentials.json
 <your credentials>
 ```

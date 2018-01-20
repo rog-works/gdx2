@@ -13,7 +13,7 @@ export class GAuth {
 	 * @param {string} credentialsPath 証明情報へのパス
 	 */
 	public constructor(credentialsPath?: string) {
-		this.credentialsPath = credentialsPath || './config/default.json';
+		this.credentialsPath = credentialsPath || './.google/credentials.json';
 	}
 
 	/**
@@ -41,6 +41,15 @@ export class GAuth {
 		this.assertClientSecret(clientSecret);
 		const client = this.createOAuth2Client(clientSecret);
 		return this.requestGetToken(client, code);
+	}
+
+	/**
+	 * トークンを再生成します
+	 * @return {Promise<Credentials>}
+	 */
+	public async refreshAccessToken() {
+		const client = this.createAuthorizedOAuth2Client();
+		return this.requestRefreshAccessToken(client);
 	}
 
 	/**
@@ -89,6 +98,25 @@ export class GAuth {
 	private async requestGetToken(client: any, code: string) {
 		return new Promise((resolve, reject) => {
 			client.getToken(code, (err: Error, credentials: Credentials) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(credentials);
+				}
+			});
+		})
+		.then((credentials: Credentials) => credentials);
+	}
+
+	/**
+	 * トークン再取得をリクエストします
+	 * @param {OAuth2Client} client OAuth2クライアント
+	 * @param {string} code コード
+	 * @return {Promise<Credentials>}
+	 */
+	private async requestRefreshAccessToken(client: any) {
+		return new Promise((resolve, reject) => {
+			client.refreshAccessToken((err: Error, credentials: Credentials) => {
 				if (err) {
 					reject(err);
 				} else {

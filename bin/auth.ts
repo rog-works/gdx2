@@ -1,4 +1,5 @@
-import { Gdx2 } from '../src/Gdx2';
+import * as fs from 'fs';
+import { Gdx2, Gdx2Config } from '../src/Gdx2';
 
 class auth {
 	/**
@@ -31,6 +32,27 @@ class auth {
 	 */
 	public async getToken(clientSecretJson: string, code: string) {
 		console.log(await new Gdx2().auth.getToken(clientSecretJson, code));
+	}
+
+	/**
+	 * トークンを再生成します
+	 * @param {string} configPath コンフィグへの絶対パス
+	 */
+	public async refreshAccessToken(configPath: string) {
+		const config = this.loadConfig(configPath);
+		console.log(await new Gdx2(config).auth.refreshAccessToken());
+	}
+
+	/**
+	 * コンフィグを読み込みます
+	 * @param {string} path コンフィグへの絶対パス
+	 * @throws {Error} コンフィグファイルが存在しない場合に発生
+	 */
+	private loadConfig(path) {
+		if (!fs.statSync(path).isFile) {
+			throw new Error(`Config file not found. ${path}`);
+		}
+		return <Gdx2Config>JSON.parse(fs.readFileSync(path).toString());
 	}
 }
 

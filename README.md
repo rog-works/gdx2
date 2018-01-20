@@ -38,7 +38,7 @@ https://console.developers.google.com
 $ cp /path/to/client_recret_xxxx.json .google/client_secret.json
 ```
 
-### 3. (2)で取得したクライアントシークレットの絶対パスを引数にして、認証用URL取得
+### 3. 認証用URL取得
 
 ```
 $ npm run auth generateAuthUrl config/default.json
@@ -47,17 +47,20 @@ $ npm run auth generateAuthUrl config/default.json
 
 ### 4. ブラウザで(3)の認証用URLにアクセスし、認証後に表示されたコードをコピー
 
-### 5. (4)で取得したコードに引数に加え、証明情報を取得して`<root>/.google/credentials.json`に保存
+### 5. (4)で取得したコードを引数に加え、証明情報を取得
 
 ```
 $ npm run auth getCredentials config/default.json <your code> | grep access_token
 ~ output credentials ~
+```
+
+### 6. (5)で取得した証明情報を`<root>/.google/credentials.json`に保存
 
 $ vim .google/credentials.json
 <your credentials>
 ```
 
-## 証明情報の再発行
+## 証明情報の更新
 
 ```
 $ npm run auth refreshCredentials config/default.json

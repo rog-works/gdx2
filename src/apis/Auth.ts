@@ -33,9 +33,10 @@ export class Auth {
 
 	/**
 	 * トークンを再生成します
+	 * @param {string} clientSecretJson クライアントシークレットJSON
 	 * @return {Promise<string>}
 	 */
-	public async refreshAccessToken() {
-		return JSON.stringify(await this.gAuth.refreshAccessToken());
+	public async refreshAccessToken(clientSecretJson: string) {
+		return JSON.stringify(await this.gAuth.refreshAccessToken(<ClientSecret>JSON.parse(clientSecretJson)));
 	}
 }

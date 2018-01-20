@@ -36,11 +36,12 @@ class auth {
 
 	/**
 	 * トークンを再生成します
+	 * @param {string} clientSecretJson クライアントシークレットJSON
 	 * @param {string} configPath コンフィグへの絶対パス
 	 */
-	public async refreshAccessToken(configPath: string) {
+	public async refreshAccessToken(clientSecretJson: string, configPath: string) {
 		const config = this.loadConfig(configPath);
-		console.log(await new Gdx2(config).auth.refreshAccessToken());
+		console.log(await new Gdx2(config).auth.refreshAccessToken(clientSecretJson));
 	}
 
 	/**

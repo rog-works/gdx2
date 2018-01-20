@@ -45,19 +45,21 @@ export class GAuth {
 
 	/**
 	 * トークンを再生成します
+	 * @param {ClientSecret} clientSecret クライアントシークレット
 	 * @return {Promise<Credentials>}
 	 */
-	public async refreshAccessToken() {
-		const client = this.createAuthorizedOAuth2Client();
+	public async refreshAccessToken(clientSecret: ClientSecret) {
+		const client = this.createAuthorizedOAuth2Client(clientSecret);
 		return this.requestRefreshAccessToken(client);
 	}
 
 	/**
 	 * 証明付きのOAuth2クライアントを生成します
+	 * @param {ClientSecret} clientSecret クライアントシークレット
 	 * @return {OAuth2Client}
 	 */
-	public createAuthorizedOAuth2Client() {
-		const client = this.createOAuth2Client();
+	public createAuthorizedOAuth2Client(clientSecret?: ClientSecret) {
+		const client = this.createOAuth2Client(clientSecret);
 		client.credentials = this.loadCredentials(this.credentialsPath);
 		return client;
 	}

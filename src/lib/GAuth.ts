@@ -1,27 +1,26 @@
 import * as fs from 'fs';
+import * as path from 'path';
 import * as GoogleAuth from 'google-auth-library';
 
 /**
  * Google認証ライプラリーラッパー
  */
 export class GAuth {
-	/** 認証コンフィグ */
-	private readonly credentialsPath: string;
-
 	/**
 	 * インスタンスを生成します
 	 * @param {string} credentialsPath 証明情報へのパス
 	 */
-	public constructor(credentialsPath?: string) {
-		this.credentialsPath = credentialsPath || './.google/credentials.json';
-	}
+	public constructor(
+		private readonly credentialsPath: string)
+	{}
 
 	/**
 	 * 認証用URLを生成します
-	 * @param {ClientSecret} clientSecret クライアントシークレット
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @return {string}
 	 */
-	public generateAuthUrl(clientSecret: ClientSecret) {
+	public generateAuthUrl(clientSecretPath: string) {
+		const clientSecret = this.loadJSON<ClientSecret>(clientSecretPath);
 		this.assertClientSecret(clientSecret);
 		const client = this.createOAuth2Client(clientSecret);
 		const options: GenerateAuthUrlConfig = {
@@ -32,23 +31,25 @@ export class GAuth {
 	}
 
 	/**
-	 * トークンを生成します
-	 * @param {ClientSecret} clientSecret クライアントシークレット
+	 * 証明情報を生成します
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @param {string} code 認証コード
 	 * @return {Promise<Credentials>}
 	 */
-	public async getToken(clientSecret: ClientSecret, code: string) {
+	public async getCredentials(clientSecretPath: string, code: string) {
+		const clientSecret = this.loadJSON<ClientSecret>(clientSecretPath);
 		this.assertClientSecret(clientSecret);
 		const client = this.createOAuth2Client(clientSecret);
 		return this.requestGetToken(client, code);
 	}
 
 	/**
-	 * トークンを再生成します
-	 * @param {ClientSecret} clientSecret クライアントシークレット
+	 * 証明情報を再生成します
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @return {Promise<Credentials>}
 	 */
-	public async refreshAccessToken(clientSecret: ClientSecret) {
+	public async refreshCredentials(clientSecretPath: string) {
+		const clientSecret = this.loadJSON<ClientSecret>(clientSecretPath);
 		const client = this.createAuthorizedOAuth2Client(clientSecret);
 		return this.requestRefreshAccessToken(client);
 	}
@@ -60,7 +61,7 @@ export class GAuth {
 	 */
 	public createAuthorizedOAuth2Client(clientSecret?: ClientSecret) {
 		const client = this.createOAuth2Client(clientSecret);
-		client.credentials = this.loadCredentials(this.credentialsPath);
+		client.credentials = this.loadJSON<Credentials>(this.credentialsPath);
 		return client;
 	}
 
@@ -99,13 +100,7 @@ export class GAuth {
 	 */
 	private async requestGetToken(client: any, code: string) {
 		return new Promise((resolve, reject) => {
-			client.getToken(code, (err: Error, credentials: Credentials) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(credentials);
-				}
-			});
+			client.getToken(code, (err: Error, credentials: Credentials) => err ? reject(err) : resolve(credentials));
 		})
 		.then((credentials: Credentials) => credentials);
 	}
@@ -118,24 +113,23 @@ export class GAuth {
 	 */
 	private async requestRefreshAccessToken(client: any) {
 		return new Promise((resolve, reject) => {
-			client.refreshAccessToken((err: Error, credentials: Credentials) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(credentials);
-				}
-			});
+			client.refreshAccessToken((err: Error, credentials: Credentials) => err ?reject(err) : resolve(credentials));
 		})
 		.then((credentials: Credentials) => credentials);
 	}
 
 	/**
-	 * 証明情報を読み込みます
-	 * @param {string} path 証明情報への絶対パスを指定
-	 * @return {Credentials}
+	 * JSONファイルを読み込みます
+	 * @param {string} filePath パス
+	 * @return {T}
+	 * @throws {Error} ファイルが存在しない場合に発生
 	 */
-	private loadCredentials(path: string) {
-		return <Credentials>JSON.parse(fs.readFileSync(path).toString());
+	private loadJSON<T>(filePath: string) {
+		const realPath = path.isAbsolute(filePath) ? filePath : path.normalize(path.join(process.cwd(), filePath));
+		if (!fs.statSync(realPath).isFile) {
+			throw new Error(`File not found. ${path}`);
+		}
+		return <T>JSON.parse(fs.readFileSync(realPath).toString());
 	}
 }
 

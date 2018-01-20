@@ -1,5 +1,4 @@
-import * as fs from 'fs';
-import { Gdx2, Gdx2Config } from '../src/Gdx2';
+import { Gdx2 } from '../src/Gdx2';
 
 class auth {
 	/**
@@ -19,42 +18,32 @@ class auth {
 
 	/**
 	 * 認証用URLを生成します
-	 * @param {string} clientSecretJson クライアントシークレットJSON
+	 * @param {string} configPath コンフィグへのパス
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 */
-	public generateAuthUrl(clientSecretJson: string) {
-		console.log(new Gdx2().auth.generateAuthUrl(clientSecretJson));
+	public generateAuthUrl(configPath: string, clientSecretPath: string) {
+		console.log(new Gdx2(configPath).auth.generateAuthUrl(clientSecretPath));
 	}
 
 	/**
-	 * トークンを生成します
-	 * @param {string} clientSecretJson クライアントシークレットJSON
+	 * 証明情報を生成します
+	 * @param {string} configPath コンフィグへのパス
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @param {string} code 認証コード
 	 */
-	public async getToken(clientSecretJson: string, code: string) {
-		console.log(await new Gdx2().auth.getToken(clientSecretJson, code));
+	public async getCredentials(configPath: string, clientSecretPath: string, code: string) {
+		console.log(await new Gdx2(configPath).auth.getCredentials(clientSecretPath, code));
 	}
 
 	/**
-	 * トークンを再生成します
-	 * @param {string} clientSecretJson クライアントシークレットJSON
-	 * @param {string} configPath コンフィグへの絶対パス
+	 * 証明情報を再生成します
+	 * @param {string} configPath コンフィグへのパス
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 */
-	public async refreshAccessToken(clientSecretJson: string, configPath: string) {
-		const config = this.loadConfig(configPath);
-		console.log(await new Gdx2(config).auth.refreshAccessToken(clientSecretJson));
+	public async refreshCredentials(configPath: string, clientSecretPath: string) {
+		console.log(await new Gdx2(configPath).auth.refreshCredentials(clientSecretPath));
 	}
 
-	/**
-	 * コンフィグを読み込みます
-	 * @param {string} path コンフィグへの絶対パス
-	 * @throws {Error} コンフィグファイルが存在しない場合に発生
-	 */
-	private loadConfig(path) {
-		if (!fs.statSync(path).isFile) {
-			throw new Error(`Config file not found. ${path}`);
-		}
-		return <Gdx2Config>JSON.parse(fs.readFileSync(path).toString());
-	}
 }
 
 new auth().run(process.argv);

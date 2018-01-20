@@ -13,8 +13,7 @@
 	},
 	"scripts": {
 		"build": "node_modules/typescript/bin/tsc",
-		"generateAuthUrl": "npm run build && node dist/bin/auth generateAuthUrl",
-		"getToken": "npm run build && node dist/bin/auth getToken",
-		"refreshAccessToken": "npm run build && node dist/bin/auth refreshAccessToken"
+		"auth": "npm run build && node dist/bin/auth",
+		"files": "npm run build && node dist/bin/files"
 	}
 }

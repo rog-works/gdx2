@@ -14,29 +14,29 @@ export class Auth {
 
 	/**
 	 * 認証用URLを生成します
-	 * @param {string} clientSecretJson クライアントシークレットJSON
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @return {string}
 	 */
-	public generateAuthUrl(clientSecretJson: string) {
-		return this.gAuth.generateAuthUrl(<ClientSecret>JSON.parse(clientSecretJson));
+	public generateAuthUrl(clientSecretPath: string) {
+		return this.gAuth.generateAuthUrl(clientSecretPath);
 	}
 
 	/**
-	 * トークンを生成します
-	 * @param {string} clientSecretJson クライアントシークレットJSON
+	 * 証明情報を生成します
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @param {string} code 認証コード
 	 * @return {Promise<string>}
 	 */
-	public async getToken(clientSecretJson: string, code: string) {
-		return JSON.stringify(await this.gAuth.getToken(<ClientSecret>JSON.parse(clientSecretJson), code));
+	public async getCredentials(clientSecretPath: string, code: string) {
+		return JSON.stringify(await this.gAuth.getCredentials(clientSecretPath, code));
 	}
 
 	/**
-	 * トークンを再生成します
-	 * @param {string} clientSecretJson クライアントシークレットJSON
+	 * 証明情報を再生成します
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @return {Promise<string>}
 	 */
-	public async refreshAccessToken(clientSecretJson: string) {
-		return JSON.stringify(await this.gAuth.refreshAccessToken(<ClientSecret>JSON.parse(clientSecretJson)));
+	public async refreshCredentials(clientSecretPath: string) {
+		return JSON.stringify(await this.gAuth.refreshCredentials(clientSecretPath));
 	}
 }

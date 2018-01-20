@@ -50,8 +50,11 @@ $ npm run auth generateAuthUrl config/default.json .google/client_secret.json
 ### 5. (4)で取得したコードに引数に加え、証明情報を取得して`<root>/.google/credentials.json`に保存
 
 ```
-$ $(npm run auth getCredentials config/default.json .google/client_secret.json <your code>) | grep access_token > .google/credentials.json
-~ output token ~
+$ npm run auth getCredentials config/default.json .google/client_secret.json <your code> | grep access_token
+~ output credentials ~
+
+$ vim .google/credentials.json
+<your credentials>
 ```
 
 ## Gdx2.files

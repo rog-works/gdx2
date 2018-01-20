@@ -14,29 +14,26 @@ export class Auth {
 
 	/**
 	 * 認証用URLを生成します
-	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @return {string}
 	 */
-	public generateAuthUrl(clientSecretPath: string) {
-		return this.gAuth.generateAuthUrl(clientSecretPath);
+	public generateAuthUrl() {
+		return this.gAuth.generateAuthUrl();
 	}
 
 	/**
 	 * 証明情報を生成します
-	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @param {string} code 認証コード
 	 * @return {Promise<string>}
 	 */
-	public async getCredentials(clientSecretPath: string, code: string) {
-		return JSON.stringify(await this.gAuth.getCredentials(clientSecretPath, code));
+	public async getCredentials(code: string) {
+		return JSON.stringify(await this.gAuth.getCredentials(code));
 	}
 
 	/**
 	 * 証明情報を再生成します
-	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @return {Promise<string>}
 	 */
-	public async refreshCredentials(clientSecretPath: string) {
-		return JSON.stringify(await this.gAuth.refreshCredentials(clientSecretPath));
+	public async refreshCredentials() {
+		return JSON.stringify(await this.gAuth.refreshCredentials());
 	}
 }

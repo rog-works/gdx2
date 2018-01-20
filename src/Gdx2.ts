@@ -19,7 +19,7 @@ export class Gdx2 {
 	 */
 	public constructor(configPath: string) {
 		const config = new Gdx2Config(configPath);
-		const gAuth = new GAuth(config.token);
+		const gAuth = new GAuth(config.clientSecret, config.credentials);
 		const gd = new GD(gAuth);
 		this.auth = new Auth(gAuth);
 		this.files = new Files(gd);

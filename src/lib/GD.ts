@@ -51,13 +51,7 @@ export class GD {
 	 */
 	private async requestAPI<T>(api: Function, options: Options) {
 		return new Promise((resolve, reject) => {
-			api(options, (err: Error, response: T) => {
-				if (err) {
-					reject(err);
-				} else {
-					resolve(response);
-				}
-			});
+			api(options, (err: Error, response: T) =>  err ? reject(err) : resolve(response));
 		})
 		.then((response: T) => response);
 	}

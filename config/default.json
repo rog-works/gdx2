@@ -1,3 +1,4 @@
 {
-	"token": ".google/credentials.json"
+	"clientSecret": ".google/client_secret.json",
+	"credentials": ".google/credentials.json"
 }

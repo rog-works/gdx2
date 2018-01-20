@@ -8,19 +8,20 @@ import * as GoogleAuth from 'google-auth-library';
 export class GAuth {
 	/**
 	 * インスタンスを生成します
+	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @param {string} credentialsPath 証明情報へのパス
 	 */
 	public constructor(
+		private readonly clientSecretPath: string,
 		private readonly credentialsPath: string)
 	{}
 
 	/**
 	 * 認証用URLを生成します
-	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @return {string}
 	 */
-	public generateAuthUrl(clientSecretPath: string) {
-		const clientSecret = this.loadJSON<ClientSecret>(clientSecretPath);
+	public generateAuthUrl() {
+		const clientSecret = this.loadJSON<ClientSecret>(this.clientSecretPath);
 		this.assertClientSecret(clientSecret);
 		const client = this.createOAuth2Client(clientSecret);
 		const options: GenerateAuthUrlConfig = {
@@ -32,12 +33,11 @@ export class GAuth {
 
 	/**
 	 * 証明情報を生成します
-	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @param {string} code 認証コード
 	 * @return {Promise<Credentials>}
 	 */
-	public async getCredentials(clientSecretPath: string, code: string) {
-		const clientSecret = this.loadJSON<ClientSecret>(clientSecretPath);
+	public async getCredentials(code: string) {
+		const clientSecret = this.loadJSON<ClientSecret>(this.clientSecretPath);
 		this.assertClientSecret(clientSecret);
 		const client = this.createOAuth2Client(clientSecret);
 		return this.requestGetToken(client, code);
@@ -45,11 +45,10 @@ export class GAuth {
 
 	/**
 	 * 証明情報を再生成します
-	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @return {Promise<Credentials>}
 	 */
-	public async refreshCredentials(clientSecretPath: string) {
-		const clientSecret = this.loadJSON<ClientSecret>(clientSecretPath);
+	public async refreshCredentials() {
+		const clientSecret = this.loadJSON<ClientSecret>(this.clientSecretPath);
 		const client = this.createAuthorizedOAuth2Client(clientSecret);
 		return this.requestRefreshAccessToken(client);
 	}

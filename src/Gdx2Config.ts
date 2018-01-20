@@ -5,18 +5,22 @@ import * as path from 'path';
  * コンフィグ
  */
 export class Gdx2Config {
-	/** トークン */
-	public readonly token: string;
+	/** クライアントシークレットへのパス */
+	public readonly clientSecret: string;
+	/** 証明情報へのパス */
+	public readonly credentials: string;
 
 	/**
 	 * インスタンスを生成します
 	 * @param configPath コンフィグファイルへのパス
 	 */
 	public constructor(configPath: string) {
-		this.token = './.google/credentials.json';
+		this.clientSecret = '.google/client_secret.json';
+		this.credentials = '.google/credentials.json';
 		try {
 			const config = this.loadJSON<this>(configPath);
-			this.token = config.token;
+			this.clientSecret = config.clientSecret;
+			this.credentials = config.credentials;
 		} catch (err) {
 			console.warn(err);
 		}

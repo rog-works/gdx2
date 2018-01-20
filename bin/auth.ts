@@ -19,29 +19,26 @@ class auth {
 	/**
 	 * 認証用URLを生成します
 	 * @param {string} configPath コンフィグへのパス
-	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 */
-	public generateAuthUrl(configPath: string, clientSecretPath: string) {
-		console.log(new Gdx2(configPath).auth.generateAuthUrl(clientSecretPath));
+	public generateAuthUrl(configPath: string) {
+		console.log(new Gdx2(configPath).auth.generateAuthUrl());
 	}
 
 	/**
 	 * 証明情報を生成します
 	 * @param {string} configPath コンフィグへのパス
-	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 * @param {string} code 認証コード
 	 */
-	public async getCredentials(configPath: string, clientSecretPath: string, code: string) {
-		console.log(await new Gdx2(configPath).auth.getCredentials(clientSecretPath, code));
+	public async getCredentials(configPath: string, code: string) {
+		console.log(await new Gdx2(configPath).auth.getCredentials(code));
 	}
 
 	/**
 	 * 証明情報を再生成します
 	 * @param {string} configPath コンフィグへのパス
-	 * @param {string} clientSecretPath クライアントシークレットへのパス
 	 */
-	public async refreshCredentials(configPath: string, clientSecretPath: string) {
-		console.log(await new Gdx2(configPath).auth.refreshCredentials(clientSecretPath));
+	public async refreshCredentials(configPath: string) {
+		console.log(await new Gdx2(configPath).auth.refreshCredentials());
 	}
 
 }

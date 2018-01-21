@@ -13,7 +13,9 @@
 	},
 	"scripts": {
 		"build": "node_modules/typescript/bin/tsc",
-		"auth": "npm run build && node dist/bin/auth",
-		"files": "npm run build && node dist/bin/files"
+		"auth": "node dist/bin/auth",
+		"files": "node dist/bin/files",
+		"debug-auth": "node --inspect-brk=0.0.0.0:18088 dist/bin/auth",
+		"debug-files": "node --inspect-brk=0.0.0.0:18088 dist/bin/files"
 	}
 }

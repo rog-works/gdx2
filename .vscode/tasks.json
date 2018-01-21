@@ -6,7 +6,8 @@
 		{
 			"label": "launch program",
 			"type": "shell",
-			"command": "vagrant.exe ssh -c 'cd ~/editor/gdx2; docker-compose up -d'"
+			"isBackground": true,
+			"command": "vagrant.exe ssh -c 'cd ~/editor/gdx2; docker exec gdx2-app npm run debug-files list'"
 		}
 	]
 }

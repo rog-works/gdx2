@@ -6,4 +6,4 @@ WORKDIR /opt
 
 RUN npm install
 
-CMD tail -f /dev/null
+CMD /opt/node_modules/typescript/bin/tsc --watch

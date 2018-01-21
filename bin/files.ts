@@ -17,11 +17,21 @@ class files {
 	}
 
 	/**
-	 * ファイルのメタ情報リストを取得します
-	 * @param {string} configPath コンフィグへのパス
+	 * コンフィグを取得します
+	 * @return {Gdx2Config}
 	 */
-	public async list(configPath: string) {
-		console.log(await new Gdx2(configPath).files.list());
+	private get config() {
+		return {
+			clientSecret: '.google/client_secret.json',
+			credentials: '.google/credentials.json',
+		}
+	}
+
+	/**
+	 * ファイルのメタ情報リストを取得します
+	 */
+	public async list() {
+		console.log(await new Gdx2(this.config).files.list());
 	}
 }
 

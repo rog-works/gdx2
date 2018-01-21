@@ -17,30 +17,37 @@ class auth {
 	}
 
 	/**
-	 * 認証用URLを生成します
-	 * @param {string} configPath コンフィグへのパス
+	 * コンフィグを取得します
+	 * @return {Gdx2Config}
 	 */
-	public generateAuthUrl(configPath: string) {
-		console.log(new Gdx2(configPath).auth.generateAuthUrl());
+	private get config() {
+		return {
+			clientSecret: '.google/client_secret.json',
+			credentials: '.google/credentials.json',
+		}
+	}
+
+	/**
+	 * 認証用URLを生成します
+	 */
+	public generateAuthUrl() {
+		console.log(new Gdx2(this.config).auth.generateAuthUrl());
 	}
 
 	/**
 	 * 証明情報を生成します
-	 * @param {string} configPath コンフィグへのパス
 	 * @param {string} code 認証コード
 	 */
-	public async getCredentials(configPath: string, code: string) {
-		console.log(await new Gdx2(configPath).auth.getCredentials(code));
+	public async getCredentials(code: string) {
+		console.log(await new Gdx2(this.config).auth.getCredentials(code));
 	}
 
 	/**
 	 * 証明情報を再生成します
-	 * @param {string} configPath コンフィグへのパス
 	 */
-	public async refreshCredentials(configPath: string) {
-		console.log(await new Gdx2(configPath).auth.refreshCredentials());
+	public async refreshCredentials() {
+		console.log(await new Gdx2(this.config).auth.refreshCredentials());
 	}
-
 }
 
 new auth().run(process.argv);

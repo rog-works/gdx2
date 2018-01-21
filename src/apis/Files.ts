@@ -1,4 +1,5 @@
 import { GD } from '../lib/GD';
+import { ListRequestBuilder } from '../query/ListRequestBuilder';
 
 /**
  * Google Drive files APIs
@@ -14,11 +15,10 @@ export class Files {
 
 	/**
 	 * ファイルのメタ情報リストを取得します
-	 * @param {string} basePath 基準パス
-	 * @return {Promise<ListResponse>}
+	 * @return {ListRequestBuilder}
 	 */
-	public async list(basePath: string = '/') {
-		return this.gd.list(basePath);
+	public list() {
+		return new ListRequestBuilder(this.gd);
 	}
 
 	public async get(path: string) { }

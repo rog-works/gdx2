@@ -31,7 +31,10 @@ class files {
 	 * ファイルのメタ情報リストを取得します
 	 */
 	public async list() {
-		console.log(await new Gdx2(this.config).files.list());
+		const list = await new Gdx2(this.config).files.list()
+			.prettyPrint(true)
+			.request();
+		console.log(list);
 	}
 }
 

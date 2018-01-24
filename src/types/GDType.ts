@@ -223,7 +223,7 @@ export enum Corpora {
 }
 
 /**
- * files.list.corpus
+ * files.list.corpus (Deprecated)
  */
 export enum Corpus {
 	Domain = 'domain',
